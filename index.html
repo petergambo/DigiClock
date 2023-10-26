@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigiClock by Peter Aren Gambo</title>
+    <link rel="javascript" href="digiClock.js">
+
+    <script>
+
+
+
+function runClock() 
+{
+    let date = new Date();
+
+    var hour = date.getHours();
+
+    var min = date.getMinutes();
+
+    var sec = date.getSeconds();
+
+    // console.log(date) 
+    let container = document.getElementById("clock").children;
+
+            container[0].innerHTML = twoDigits(dayNight(hour, "12"));
+            container[1].innerHTML = twoDigits(min);
+            animate(container[2], twoDigits(sec));
+
+    // console.log(cont)
+   setInterval(() => {
+
+        if (sec == 59 && min == 59)
+        {
+            hour++;
+            min = 0;
+            sec = 1; 
+
+            container[0].innerHTML = twoDigits(dayNight(hour, "12"));
+            container[1].innerHTML = twoDigits(min);
+            animate(container[2], twoDigits(sec));
+        }
+
+        else if(sec == 59)
+        {
+            min++;
+            sec = 0;
+            container[1].innerHTML = twoDigits(min);
+            animate(container[2], twoDigits(sec));
+        }
+
+        else 
+        {
+            sec++;
+            animate(container[2], twoDigits(sec));
+        }
+        
+
+        // container[2].innerHTML = twoDigits(sec);
+
+        // console.log(hour + "h:\t" + min + "m:\t" + sec + "sec\t");
+        
+
+    }, 1000);
+    
+    function twoDigits(num)
+    {
+        if(num<10)
+        {
+            return "0" + num;
+        }
+
+        else
+        {
+            return num;
+        }
+    }
+
+    function animate(elem, content)
+    {
+        elem.style.display = "none";
+        elem.innerHTML = content;
+        elem.style.display = "initial";
+    }
+
+    function dayNight(hour, format)
+    {
+        if (format == "12" && hour > 12)
+        {
+            hour = hour - 12;
+        }
+
+        return hour;
+    }
+    
+
+}
+    </script>
+
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            width: 100vw;
+            text-align: center;
+        }
+
+        h1 {
+            padding: 15px;
+        }
+
+        #clock {
+            margin-top: 40px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 9px;
+            color: skyblue;
+            font-size: 56px;
+            padding: 20px;
+            align-items: center;
+            /* text-shadow: 0px 0px 6px red; */
+        }
+
+        .hour, .min, .sec {
+            color: white;
+            font-size: 56px;
+            font-weight: bolder;
+            border: 2px solid skyblue;
+            padding: 20px;
+            transition: 500ms ease-in;
+            box-shadow: 0 0 5px 5px teal;
+            border-radius: 8px;
+        }
+
+
+        * {
+            margin: 0;
+         
+        }
+
+        @media (max-width: 475px) {
+            .hour, .min, .sec { 
+                font-size: 46px;
+            }
+
+        }
+    </style>
+    
+</head>
+<body onload="runClock()">
+    <h1>DigiClock</h1>
+    <p>Digital Clock with HTML, CSS and JavaScript</p>
+    <div id="clock">
+        <div class="hour">H</div>:
+        <div class="min">M</div>:
+        <div class="sec">S</div>
+    </div>
+</body>
+</html>
